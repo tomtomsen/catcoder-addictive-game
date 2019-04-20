@@ -13,6 +13,6 @@ if __name__ == '__main__':
 
         print("Processing", fileInBasename + ": ", end="")
         out = main(args)
-        fileOut.write("%s" % (out))
+        fileOut.write("%s" % out)
         print("done")
         

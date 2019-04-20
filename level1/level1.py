@@ -12,6 +12,7 @@ def calcCol( pos, cols ):
     mod = pos % cols
     if (mod == 0):
         return cols
+        
     return pos % cols
 
 # ------------------------------
@@ -24,6 +25,12 @@ def main ( args ):
     str = ""
     for argIdx in range(0, posCount):
         posArg = int(args[argIdx + 3])
-        str = str + " " + ("%d %d" % (calcRow( posArg, colArg ), calcCol( posArg, colArg)))
+
+        if str != "":
+            str = str + " "
+
+        str = str + ("%d %d" % (
+            calcRow( posArg, colArg ), 
+            calcCol( posArg, colArg)))
 
     return str

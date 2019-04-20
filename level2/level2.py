@@ -38,7 +38,10 @@ def main(args):
                 if (pos1 == 0):
                     pos1 = posArg
                 else:
-                    str = str + "%d " % (manhattanDinstance(pos1, posArg, colArg))
+                    if str != "":
+                        str = str + " "
+
+                    str = str + "%d" % (manhattanDinstance(pos1, posArg, colArg))
                     break
 
     return str
