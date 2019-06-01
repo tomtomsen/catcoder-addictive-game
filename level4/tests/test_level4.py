@@ -18,28 +18,6 @@ class CalcRowTests(unittest.TestCase):
             ]
         ) 
 
-    def test_Main(self):
-        
-        self.assertEqual(
-            main([
-                5, 5, 
-                8, 
-                7, 1, 
-                9, 1, 
-                10, 2, 
-                16, 3, 
-                17, 2, 
-                19, 4, 
-                20, 3, 
-                25, 4,
-                1,
-                1,
-                9,
-                3,
-                'W', 'W', 'W'
-            ]),
-            '-1 3'
-        )
 
 if __name__ == '__main__':
     unittest.main()

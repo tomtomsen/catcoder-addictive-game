@@ -11,4 +11,4 @@ test:
 
 .PHONY: clean
 clean:
-	-rm data/out/*.out
+	-@rm data/out/*.out

@@ -1,6 +1,7 @@
 import sys
 import math
 import array as arr
+from PIL import Image
 
 COLOR_NONE = 0
 
@@ -91,7 +92,7 @@ def initGrid(maxCols, maxRows):
 #
 # steps: [S, W, E, E]
 #
-def getValidPath(pathDefinition, grid):
+def getValidPath(pathDefinition, grid, args, argIdx, colArg, rowArg):
 
     color = pathDefinition[0]
     startPosArg = pathDefinition[1]
@@ -99,12 +100,12 @@ def getValidPath(pathDefinition, grid):
 
     path = []
     for y in range(0, pathLenArg):
-        direction = args[argIdx]
+        direction = pathDefinition[3+y]
         argIdx += 1
 
         path.append(startPosArg)
         newPosition = step(direction, startPosArg, colArg, rowArg)
-        
+
         if (newPosition == -1): # out of bounds
             return []
 
@@ -112,11 +113,11 @@ def getValidPath(pathDefinition, grid):
             return []
 
         if (y == pathLenArg-1): # letzter schritt
-            if (grid[newPosition] != colorArg):
+            if (grid[newPosition] != color):
                 return []
         else:
             # andere farbe
-            if (grid[newPosition] != colorArg and grid[newPosition] != COLOR_NONE):
+            if (grid[newPosition] != color and grid[newPosition] != COLOR_NONE):
                 return []
                 
         # grid[newPosition] = colorArg
@@ -127,15 +128,34 @@ def getValidPath(pathDefinition, grid):
 
 # ------------------------------
 def addPathToGrid(grid, validPath, color):
+    for item in validPath:
+        grid[item] = color
+
     return grid
 
 # -------------------------------
-def draw(grid, outputFile):
+def draw(grid, width, height, outputFile):
+
+    img = Image.new('RGB', (width+1, height+1), 'black');
+    pixels = img.load()
+
+    for i in range(1, len(grid)):
+
+        chr = ' '
+        if (grid[i] != COLOR_NONE):
+            row = calcRow(i, width)
+            col = calcCol(i, width)
+            pixels[col, row] = (255, 255, 255)
+
+
+    img.save(outputFile)
+
     return 1
 
 # ------------------------------
 
 def main(args, outputFile):
+
     argIdx = 0
     rowArg = int(args[argIdx])
     argIdx += 1
@@ -176,7 +196,7 @@ def main(args, outputFile):
 
             pathDefinition.append(stepArg)
         
-        validPath = getValidPath(pathDefinition, grid)
+        validPath = getValidPath(pathDefinition, grid, args, argIdx, colArg, rowArg)
         grid = addPathToGrid(grid, validPath, colorArg)
 
-    draw(grid, outputFile)
+    draw(grid, colArg, rowArg, outputFile)
