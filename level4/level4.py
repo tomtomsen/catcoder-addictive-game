@@ -91,16 +91,16 @@ def initGrid(maxCols, maxRows):
 #
 # steps: [S, W, E, E]
 #
-def getValidPath(pathDefinition, grid):
+def getValidPath(pathDefinition, grid, colArg, rowArg, colorArg):
 
     color = pathDefinition[0]
     startPosArg = pathDefinition[1]
     pathLenArg = pathDefinition[2]
 
     path = []
+
     for y in range(0, pathLenArg):
-        direction = args[argIdx]
-        argIdx += 1
+        direction = pathDefinition[3+y]
 
         path.append(startPosArg)
         newPosition = step(direction, startPosArg, colArg, rowArg)
@@ -127,10 +127,24 @@ def getValidPath(pathDefinition, grid):
 
 # ------------------------------
 def addPathToGrid(grid, validPath, color):
+    
+    for x in validPath:
+        grid[x] = color
+
     return grid
 
 # -------------------------------
-def draw(grid, outputFile):
+def draw(grid, outputFile, colArg):
+
+    for x in range(1, len(grid)):
+        if grid[x] == COLOR_NONE:
+            outputFile.write(' ')
+        else:
+            outputFile.write('X')
+
+        if x % colArg == 0:
+            outputFile.write('\n') 
+
     return 1
 
 # ------------------------------
@@ -176,7 +190,7 @@ def main(args, outputFile):
 
             pathDefinition.append(stepArg)
         
-        validPath = getValidPath(pathDefinition, grid)
+        validPath = getValidPath(pathDefinition, grid, colArg, rowArg, colorArg)
         grid = addPathToGrid(grid, validPath, colorArg)
 
-    draw(grid, outputFile)
+    draw(grid, outputFile, colArg)
